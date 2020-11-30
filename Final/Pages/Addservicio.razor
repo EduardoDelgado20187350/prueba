@@ -1,0 +1,59 @@
+﻿@page "/Addservicio"
+@using Final.Data
+@inject ProductoServicio2 Service
+@inject NavigationManager NavigationManager
+
+<h2>Agregar Producto</h2>
+<hr />
+
+<form>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="Nombre">Nombre del del Servicio</label>
+            <input type="text" class="form-control"  placeholder="Nombre del Servicio" @bind="@servicio.Nombre_Servicio">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputcantidad">Presio del Servicio</label>
+            <input type="text" class="form-control" id="cantidad" placeholder="Precio del Servicio" @bind="@servicio.Precio_servicio">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="fecha">Fecha</label>
+            <input type="date" class="form-control" id="fecha" @bind="@servicio.Fecha">
+        </div>
+        <div class="form-group">
+            <label for="Descripcion">Descripcion</label>
+            <input type="text" class="form-control" id="Descripcion" placeholder="Descripcion" @bind="@servicio.Descripcion">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CreateServicio" value="Save" />
+                <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+
+@code {
+
+    Servicio servicio = new Servicio();
+
+    protected void CreateServicio()
+    {
+        Service.Create(servicio);
+        NavigationManager.NavigateTo("servicioInfo");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("servicioInfo");
+
+    }
+
+}

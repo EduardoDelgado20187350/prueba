@@ -1,0 +1,77 @@
+﻿@page "/ClienteInfo"
+@using Final.Data
+@inject ClienteService Service
+
+
+
+<h1>Informacion de clientes</h1>
+
+<br />
+
+<NavLink class="nav-link" href="AddCliente">
+    <span class="oi oi-plus" aria-hidden="true"></span>Agregar Cliente
+
+</NavLink>
+<br />
+
+@if (cliente == null)
+{
+    <p><em>Loading.....</em></p>
+
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>RNC</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Lat</th>
+                <th>Long</th>
+                <th>Correo</th>
+                <th>Fecha</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prop in cliente)
+            {
+            <tr>
+                <td>@prop.Cliente_Id</td>
+                <td>@prop.RNC</td>
+                <td>@prop.Nombre</td>
+                <td>@prop.Direccion</td>
+                <td>@prop.Latitud</td>
+                <td>@prop.Longitud</td>
+                <td>@prop.Correo</td>
+                <td>@prop.Fecha</td>
+                <td>
+                    <a class="nav-link" href="EditClientes/@prop.Cliente_Id">
+                        <span class="oi oi-pencil" aria-hidden="true"></span>Edit
+                    </a>
+                    <a class="nav-link" href="DeleteClientes/@prop.Cliente_Id">
+                        <span class="oi oi-trash" aria-hidden="true"></span>Delete
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+
+@code {
+
+    List<ClienteFinal> cliente;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cliente = await Task.Run(() => Service.GetClientes());
+
+    }
+
+
+}

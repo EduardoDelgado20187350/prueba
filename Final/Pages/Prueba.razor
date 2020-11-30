@@ -1,0 +1,24 @@
+﻿@page "/Prueba"
+@using Final.Data
+@inject ProductoService Service
+
+<h3>Prueba</h3>
+
+@foreach(var prueba in product)
+{
+    @if (prueba.Nombre=="Iphone 8")
+    {
+        @prueba.IdProducto;
+    }
+}
+
+@code {
+    List<Producto> product = new List<Producto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await Task.Run(() => Service.GetProductos());
+
+    }
+
+}

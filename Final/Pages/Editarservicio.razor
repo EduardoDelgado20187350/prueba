@@ -1,0 +1,71 @@
+﻿@page "/Editarservicio/{CurrentID}"
+@using Final.Data
+@inject ProductoServicio2 Service
+@inject NavigationManager NavigationManager
+
+<h2>Update Producto</h2>
+<hr />
+
+<form>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="id">ID</label>
+            <input for="Nombre" class="form-control" disabled @bind="@servicio.IdServicio" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Nombre">Nombre del Servicio</label>
+            <input type="text" class="form-control" id="inputNombre" placeholder="" @bind="@servicio.Nombre_Servicio">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputcantidad">precio</label>
+            <input type="text" class="form-control" id="cantidad" placeholder="" @bind="@servicio.Precio_servicio">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="fecha">Fecha</label>
+            <input type="date" class="form-control" id="fecha" @bind="@servicio.Fecha">
+        </div>
+        <div class="form-group">
+            <label for="Descripcion">Descripcion</label>
+            <input type="text" class="form-control" id="Descripcion" placeholder="Descripcion" @bind="@servicio.Descripcion">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@updateServicio" value="Update" />
+                <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    Servicio servicio = new Servicio();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        servicio = await Task.Run(() => Service.GetServicioById(Convert.ToInt32(CurrentID)));
+
+    }
+
+    protected void updateServicio()
+    {
+        Service.UpdateServicio(servicio);
+        NavigationManager.NavigateTo("servicionInfo");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("servicionInfo");
+
+    }
+
+}

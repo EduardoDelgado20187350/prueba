@@ -1,0 +1,64 @@
+﻿@page "/DeleteProducto/{CurrentID}"
+@using Final.Data
+@inject ProductoService Service
+@inject NavigationManager NavigationManager
+
+<h2>Delete Producto</h2>
+<hr />
+<h3>Estas seguro que quieres borrar esto?</h3>
+<div class="row">
+    <div class="form-group col-md-4">
+        <label>Producto ID:</label>
+        <label>@producto.IdProducto</label>
+    </div>
+    <div class="form-group col-md-4">
+        <label>Nombre:</label>
+        <label>@producto.Nombre</label>
+    </div>
+    <div class="form-group col-md-4">
+        <label>Cantidad:</label>
+        <label>@producto.Cantidad</label>
+    </div>
+    <div class="form-group col-md-4">
+        <label>Fecha:</label>
+        <label>@producto.Fecha</label>
+    </div>
+    <div class="form-group col-md-4">
+        <label>Descripcion:</label>
+        <label>@producto.Descripcion</label>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@BorrarProducto" value="Delete" />
+            <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+
+        </div>
+
+    </div>
+
+</div>
+
+@code { [Parameter]
+            public string CurrentID { get; set; }
+            Producto producto = new Producto();
+
+
+            protected override async Task OnInitializedAsync()
+            {
+                producto = await Task.Run(() => Service.GetProductoById(Convert.ToInt32(CurrentID)));
+
+            }
+
+            protected void BorrarProducto()
+            {
+                Service.DeleteProdcuto(producto);
+                NavigationManager.NavigateTo("ProductoInfo");
+            }
+            void Cancel()
+            {
+                NavigationManager.NavigateTo("ProductoInfo");
+
+            } }

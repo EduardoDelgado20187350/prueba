@@ -1,0 +1,75 @@
+﻿@page "/EditProducto/{CurrentID}"
+@using Final.Data
+@inject ProductoService Service
+@inject NavigationManager NavigationManager
+
+<h2>Update Producto</h2>
+<hr />
+
+<form>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="id">ID</label>
+            <input for="Nombre" class="form-control" disabled @bind="@producto.IdProducto" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Nombre">Nombre</label>
+            <input type="text" class="form-control" id="inputNombre" placeholder="Nombre" @bind="@producto.Nombre">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputcantidad">Precio</label>
+            <input type="text" class="form-control" id="cantidad" placeholder="Nombre" @bind="@producto.Precio">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputcantidad">Cantidad</label>
+            <input type="text" class="form-control" id="cantidad" placeholder="Nombre" @bind="@producto.Cantidad">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="fecha">Fecha</label>
+            <input type="date" class="form-control" id="fecha" @bind="@producto.Fecha">
+        </div>
+        <div class="form-group">
+            <label for="Descripcion">Descripcion</label>
+            <input type="text" class="form-control" id="Descripcion" placeholder="Descripcion" @bind="@producto.Descripcion">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateProducto" value="Update" />
+                <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    Producto producto = new Producto();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        producto = await Task.Run(() => Service.GetProductoById(Convert.ToInt32(CurrentID)));
+
+    }
+
+    protected void UpdateProducto()
+    {
+        Service.UpdateProducto(producto);
+        NavigationManager.NavigateTo("ProductoInfo");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("ProductoInfo");
+
+    }
+
+}

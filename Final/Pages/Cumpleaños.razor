@@ -1,0 +1,44 @@
+@page "/Cumpleaños"
+@using Final.Data
+@inject ClienteService Service
+
+<center>
+    <h2>Listado de Cumpleaños de Clientes</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre del Cliente</th>
+                <th scope="col">Fecha del Cumpleaños</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Clientes in CF)
+            {
+
+                <tr>
+                    <th scope="row">@Clientes.Cliente_Id</th>
+                    <td>@Clientes.Nombre</td>
+                    <td>@Clientes.Fecha</td>
+                </tr>
+
+            }
+        </tbody>
+
+
+
+        </table>
+
+</center>
+
+@code{
+
+    List<ClienteFinal> CF = new List<ClienteFinal>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        CF = await Task.Run(() => Service.GetClientes());
+
+    }
+
+}

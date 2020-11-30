@@ -1,0 +1,35 @@
+@page "/Mapa"
+@inject IJSRuntime JSRuntime;
+@using Final.Data
+@inject ClienteService Service
+
+<style>
+    #mapid {
+        height: 400px;
+    }
+</style>
+
+<div id="mapid"></div>
+
+@code{
+
+    List<ClienteFinal> CF = new List<ClienteFinal>();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+    }
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            CF = await Task.Run(() => Service.GetClientes());
+            await JSRuntime.InvokeVoidAsync("InitMapa", CF);
+
+        }
+    }
+}

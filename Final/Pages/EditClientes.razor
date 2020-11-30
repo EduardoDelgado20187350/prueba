@@ -1,0 +1,108 @@
+﻿@page "/EditClientes/{CurrentID}"
+@using Final.Data
+@inject ClienteService Service
+@inject NavigationManager NavigationManager
+
+<h2>Actualizar Cliente</h2>
+<hr />
+
+
+
+<form>
+
+    <div class="row">
+
+        <div class="form-group col-md-2">
+            <label for="id">ID</label>
+            <input for="Nombre" class="form-control" disabled @bind="@cliente.Cliente_Id" />
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+
+        <div class="form-group col-md-4">
+            <label for="RNC">RNC</label>
+            <input type="text" class="form-control" id="inputRNC" placeholder="0017568..." @bind="@cliente.RNC">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Nombre">Nombre</label>
+            <input type="text" class="form-control" id="inputNombre" placeholder="Nombre" @bind="@cliente.Nombre">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Direccion">Direccion</label>
+            <input type="text" class="form-control" id="inputDireccion" placeholder="Direccion" @bind="@cliente.Direccion">
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row ">
+        <div class="form-group col-md-4">
+            <label for="Latitud">Latitud</label>
+            <input type="text" class="form-control" id="inputLatitud" placeholder="Latitud" @bind="@cliente.Latitud">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Longitud">Longitud</label>
+            <input type="text" class="form-control" id="inputLongitud" placeholder="Longitud" @bind="@cliente.Longitud">
+        </div>
+
+
+
+
+        <div class="form-group col-md-4">
+            <label for="Correo">Correo</label>
+            <input type="text" class="form-control" id="inputCorreo" placeholder="Correo" @bind="@cliente.Correo">
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+        <div class="form-group col-md-4">
+            <label for="Fecha">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" id="inputFecha" @bind="@cliente.Fecha">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateCliente" value="Save" />
+                <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    ClienteFinal cliente = new ClienteFinal();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        cliente = await Task.Run(() => Service.GetClienteById(Convert.ToInt32(CurrentID)));
+
+    }
+
+    protected void UpdateCliente()
+    {
+        Service.UpdateCliente(cliente);
+        NavigationManager.NavigateTo("ClienteInfo");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("ClienteInfo");
+
+    }
+
+}

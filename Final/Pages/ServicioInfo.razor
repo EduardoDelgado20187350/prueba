@@ -1,0 +1,66 @@
+﻿@page "/servicioInfo"
+@using Final.Data
+@inject ProductoServicio2 service
+
+<NavLink class="nav-link" href="Addservicio">
+    <span class="oi oi-plus" aria-hidden="true"></span>&nbsp; Agregar Servicio
+
+</NavLink>
+
+<h1>Servicio Realizados </h1>
+
+@if (servici == null)
+{
+    <p><em>Loading.....</em></p>
+
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ServicoId</th>
+                <th>Nombre del Servicio</th>
+                <th>Precio del Servicio</th>
+                <th>Fecha</th>
+                <th>Descripcion</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prop in servici)
+            {
+                <tr>
+                    <td>@prop.IdServicio</td>
+                    <td>@prop.Nombre_Servicio</td>
+                    <td>@prop.Precio_servicio</td>
+                    <td>@prop.Fecha</td>
+                    <td>@prop.Descripcion</td>
+                    <td>
+                        <a class="nav-link" href="Editarservicio/@prop.IdServicio">
+                            <span class="oi oi-pencil" aria-hidden="true"></span>Edit
+                        </a>
+                        <a class="nav-link" href="Eliminarservicio/@prop.IdServicio">
+                            <span class="oi oi-trash" aria-hidden="true"></span>Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+
+@code {
+
+    List<Servicio> servici;
+
+    protected override async Task OnInitializedAsync()
+    {
+        servici = await Task.Run(() => service.GetServicio());
+
+    }
+
+
+}

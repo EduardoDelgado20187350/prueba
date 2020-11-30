@@ -1,0 +1,63 @@
+﻿@page "/AddProducto"
+@using Final.Data
+@inject ProductoService Service
+@inject NavigationManager NavigationManager
+
+<h2>Agregar Producto</h2>
+<hr />
+
+<form>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="Nombre">Nombre del Producto</label>
+            <input type="text" class="form-control" id="inputNombre" placeholder="Nombre del producto" @bind="@producto.Nombre">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputprecio">Precio</label>
+            <input type="text" class="form-control" id="precio" placeholder="precio" @bind="@producto.Precio">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputcantidad">Cantidad</label>
+            <input type="text" class="form-control" id="cantidad" placeholder="cantidad" @bind="@producto.Cantidad">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="fecha">Fecha</label>
+            <input type="date" class="form-control" id="fecha" @bind="@producto.Fecha">
+        </div>
+        <div class="form-group">
+            <label for="Descripcion">Descripcion</label>
+            <input type="text" class="form-control" id="Descripcion" placeholder="Descripcion" @bind="@producto.Descripcion">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CreateProducto" value="Save" />
+                <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+
+@code {
+
+    Producto producto = new Producto();
+
+    protected void CreateProducto()
+    {
+        Service.Create(producto);
+        NavigationManager.NavigateTo("ProductoInfo");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("ProductoInfo");
+
+    }
+
+}
